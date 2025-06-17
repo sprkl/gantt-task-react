@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { BarTask } from "../../types/bar-task";
 import { GanttContentMoveAction } from "../../types/gantt-task-actions";
 import { Bar } from "./bar/bar";
@@ -24,20 +24,10 @@ export type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = props => {
-  const {
-    task,
-    arrowIndent,
-    isDelete,
-    taskHeight,
-    isSelected,
-    rtl,
-    onEventStart,
-  } = {
+  const { task, isDelete, taskHeight, isSelected, onEventStart } = {
     ...props,
   };
-  const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
-  const [isTextInside, setIsTextInside] = useState(true);
 
   useEffect(() => {
     switch (task.typeInternal) {
@@ -54,31 +44,7 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
         setTaskItem(<Bar {...props} />);
         break;
     }
-  }, [task, isSelected]);
-
-  useEffect(() => {
-    if (textRef.current) {
-      setIsTextInside(textRef.current.getBBox().width < task.x2 - task.x1);
-    }
-  }, [textRef, task]);
-
-  const getX = () => {
-    const width = task.x2 - task.x1;
-    const hasChild = task.barChildren.length > 0;
-    if (isTextInside) {
-      return task.x1 + width * 0.5;
-    }
-    if (rtl && textRef.current) {
-      return (
-        task.x1 -
-        textRef.current.getBBox().width -
-        arrowIndent * +hasChild -
-        arrowIndent * 0.2
-      );
-    } else {
-      return task.x1 + width + arrowIndent * +hasChild + arrowIndent * 0.2;
-    }
-  };
+  }, [task, isSelected, props]);
 
   return (
     <g
@@ -108,18 +74,17 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
       }}
     >
       {taskItem}
-      <text
-        x={getX()}
-        y={task.y + taskHeight * 0.5}
-        className={
-          isTextInside
-            ? style.barLabel
-            : style.barLabel && style.barLabelOutside
-        }
-        ref={textRef}
+      <foreignObject
+        x={task.x1}
+        y={task.y}
+        width={task.x2 - task.x1}
+        height={taskHeight}
+        style={{ overflow: "hidden" }}
       >
-        {task.name}
-      </text>
+        <div className={style.taskItemSpanLabelContainer}>
+          <span className={style.taskItemSpanLabel}>{task.name}</span>
+        </div>
+      </foreignObject>
     </g>
   );
 };
