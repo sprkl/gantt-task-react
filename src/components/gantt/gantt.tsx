@@ -22,7 +22,7 @@ import { convertToBarTasks } from "../../helpers/bar-helper";
 import { GanttEvent } from "../../types/gantt-task-actions";
 import { DateSetup } from "../../types/date-setup";
 import { HorizontalScroll } from "../other/horizontal-scroll";
-import { removeHiddenTasks, sortTasks } from "../../helpers/other-helper";
+import { removeHiddenTasks } from "../../helpers/other-helper";
 import styles from "./gantt.module.css";
 import { useMeasure } from "@uidotdev/usehooks";
 
