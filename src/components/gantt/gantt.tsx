@@ -114,7 +114,7 @@ export const Gantt = ({
     } else {
       filteredTasks = tasks;
     }
-    filteredTasks = filteredTasks.sort(sortTasks);
+    // filteredTasks = filteredTasks.sort(sortTasks);
     const [startDate, endDate] = ganttDateRange(
       filteredTasks,
       viewMode,

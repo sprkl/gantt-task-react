@@ -1,6 +1,6 @@
 {
   "name": "@sparkle_tech/gantt-task-react",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Interactive Gantt Chart for React with TypeScript.",
   "author": "Sparkle <contact@sparkle.tech>",
   "homepage": "https://github.com/sprkl/gantt-task-react",
